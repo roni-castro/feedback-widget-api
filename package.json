@@ -1,0 +1,26 @@
+{
+  "name": "feedback-widget-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roni-castro/feedback-widget-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/roni-castro/feedback-widget-api/issues"
+  },
+  "homepage": "https://github.com/roni-castro/feedback-widget-api#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.35",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.6.4"
+  }
+}
