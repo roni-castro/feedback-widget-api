@@ -1,6 +1,9 @@
 import { Router } from 'express';
-import { prisma } from '../prisma';
 import nodemailer from 'nodemailer';
+
+import { PrismaFeedbackRepository } from '../repositories/prisma.feedbacks.repository';
+import { ListFeedbackUseCase } from '../usecases/feedback/list.feedback.usecase';
+import { SubmitFeedbackUseCase } from '../usecases/feedback/submit.feedback.usecase';
 
 const transport = nodemailer.createTransport({
   host: 'smtp.mailtrap.io',
@@ -14,19 +17,20 @@ const transport = nodemailer.createTransport({
 const feedbackRouter = Router();
 
 feedbackRouter.get('/', async (req, res) => {
-  const feedbacks = await prisma.feedback.findMany();
+  const prismaFeedbackRepository = new PrismaFeedbackRepository();
+  const listFeedbackUseCase = new ListFeedbackUseCase(prismaFeedbackRepository);
+  const feedbacks = await listFeedbackUseCase.execute();
   res.json(feedbacks);
 });
 
 feedbackRouter.post('/', async (req, res) => {
   const { type, comment, screenshot } = req.body;
-  const feedback = await prisma.feedback.create({
-    data: {
-      type,
-      comment,
-      screenshot,
-    },
-  });
+
+  const prismaFeedbackRepository = new PrismaFeedbackRepository();
+  const submitFeedbackUseCase = new SubmitFeedbackUseCase(
+    prismaFeedbackRepository
+  );
+  submitFeedbackUseCase.execute({ type, comment, screenshot });
 
   transport.sendMail({
     from: '"Equipe Feedget <oi@feedget.com>',
@@ -40,7 +44,7 @@ feedbackRouter.post('/', async (req, res) => {
     ].join('\n'),
   });
 
-  res.status(201).json({ data: feedback });
+  res.status(201).json();
 });
 
 export default feedbackRouter;
