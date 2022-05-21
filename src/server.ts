@@ -1,14 +1,11 @@
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
+import routes from './routes';
 
-const prisma = new PrismaClient();
 const app = express();
+app.use(express.json());
+
+app.use(routes);
 
 app.listen(3333, () => {
   console.log('Server running');
-});
-
-app.get('/feedback', async (req, res) => {
-  const feedbacks = await prisma.feedbacks.findMany();
-  res.json(feedbacks);
 });
