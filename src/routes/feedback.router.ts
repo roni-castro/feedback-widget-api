@@ -18,7 +18,7 @@ feedbackRouter.post('/', async (req, res) => {
     },
   });
 
-  res.json(response);
+  res.status(201).json(response);
 });
 
 export default feedbackRouter;
