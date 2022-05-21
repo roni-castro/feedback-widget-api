@@ -4,7 +4,7 @@ import { FeedbacksRepository } from '../../repositories/feedback/feedbacks.repos
 export interface SubmitFeedbackUseCaseRequest {
   type: string;
   comment: string;
-  screenshot: string;
+  screenshot: string | null;
 }
 
 export class SubmitFeedbackUseCase {
@@ -14,6 +14,17 @@ export class SubmitFeedbackUseCase {
   ) {}
 
   async execute({ type, comment, screenshot }: SubmitFeedbackUseCaseRequest) {
+    if (!type) {
+      throw new Error('Type is required');
+    }
+    if (!comment) {
+      throw new Error('Comment is required');
+    }
+
+    if (screenshot && !screenshot.startsWith('data:image/png;base64')) {
+      throw new Error('Screenshot is not a base64');
+    }
+
     await this.feedbackRepository.create({ type, comment, screenshot });
 
     await this.mailAdapter.sendMail({
