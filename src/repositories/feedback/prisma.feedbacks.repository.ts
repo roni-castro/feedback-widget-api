@@ -1,4 +1,4 @@
-import { prisma } from '../prisma';
+import { prisma } from '../../prisma';
 import { FeedbacksRepository } from './feedbacks.repository';
 import { FeedbackCreateData } from './models';
 
