@@ -1,5 +1,4 @@
 import { ListFeedbackUseCase } from './list.feedback.usecase';
-import { SubmitFeedbackUseCase } from './submit.feedback.usecase';
 
 const listFeedbackSpy = jest.fn();
 const feedbackRepository = {
